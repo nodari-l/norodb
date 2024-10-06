@@ -1,23 +1,25 @@
-CC = g++
-CXX = g++
-CXXFLAGS = -std=c++20 
+CPP = g++-14 
+CPPFLAGS = -std=c++20 
 CFLAGS = -std=c++20
 OBJECTS =
 
 BUILD = ./build
 OBJDIR = ./build/obj
 
-CXXSRC = $(wildcard src/*.cc)
-CXXFILENAMES := $(notdir $(CXXSRC))
-OBJ_FILES := $(patsubst %.cc, $(OBJDIR)/%.o, $(CXXFILENAMES) )
+CPP_SRC = $(wildcard src/*.cc)
+CPP_FILENAMES := $(notdir $(CPP_SRC))
+OBJ_FILES := $(patsubst %.cc, $(OBJDIR)/%.o, $(CPP_FILENAMES) )
+
+one:
+	echo $(OBJ_FILES)
 
 build: $(OBJ_FILES)
 	$(shell mkdir -p $(BUILD)/lib)
 	ar rcs build/lib/norodb.a $(OBJ_FILES)
 
-$(OBJDIR)/%.o : $(CXXSRC)
+$(OBJDIR)/%.o : 
 	$(shell mkdir -p $(OBJDIR) )
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+	$(CPP) $(CPPFLAGS) -c $(patsubst %.o, src/%.cc, $(notdir $@)) -o $@
 
 test: build
 	@echo "\n\n >>>> RUNNING TESTS <<<<\n\n"

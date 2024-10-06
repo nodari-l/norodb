@@ -1,19 +1,13 @@
-CC = g++
-CFLAGS ?= -std=c++20
+CPP = g++-14
+CPP_FLAGS ?= -std=c++20
 INCLUDE ?= -I../src
-LIB_NORODB ?= ../norodb.a
-LINK ?= -L.. 
+LIB_NORODB ?= ../build/lib/norodb.a
+LINK ?= -L../build/lib 
 
-all: 
-	$(CC) $(CFLAGS) $(INCLUDE) -c main.cc 
-	$(CC) $(CFLAGS) -o main main.o $(LINK) $(LIB_NORODB) 
+all: clean
+	$(CPP) $(CPP_FLAGS) $(INCLUDE) -c main.cc 
+	$(CPP) $(CPP_FLAGS) -o main main.o $(LINK) $(LIB_NORODB) 
 	./main
-
-
-loop: clean
-	$(CC) $(CFLAGS) $(INCLUDE) -c loop.cc
-	$(CC) $(CFLAGS) -o loop loop.o $(LINK) $(LIB_NORODB) 
-	./loop
 
 clean:
 	rm -rf norodb || true
