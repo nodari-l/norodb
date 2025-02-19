@@ -52,7 +52,15 @@ Status DB::get(ByteBuffer& key, ByteBuffer& val) {
   return Status(true);
 }
 
-Status DB::remove(const ByteBuffer& key) { return Status(true); }
+Status DB::remove(ByteBuffer& key) {
+  write_lock.lock();
+  index.remove(key);
+  seq_num++;
+  TombstoneEntry entry(key, seq_num, TOMBSTONE_FILE_VERSION);
+  write_lock.unlock();
+
+  return Status(true);
+  }
 
 uint64_t DB::write_row(Row& row) {
   if (!curr_data_file or
