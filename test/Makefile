@@ -1,8 +1,9 @@
 CC = g++
 CFLAGS ?= -std=c++17 -pthread
-INCLUDE ?= -I../src -I./third_party/goodletest/googletest/include
-LIBS ?= ../norodb.a third_party/googletest/lib/libgtest.a
-LINK ?= -L..
+INCLUDE ?= -I../src -I./third_party/googletest/googletest/include
+LIBS ?= ../build/lib/norodb.a ./third_party/googletest/build/lib/libgtest.a
+LINK ?= -L../build/lib
+
 
 all: test_byte_buffer test_db_directory test_index
 	@echo "\n>>>> ALL DONE! <<<<\n"
