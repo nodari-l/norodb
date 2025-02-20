@@ -16,6 +16,8 @@
 
 namespace norodb {
 
+// TODO: replace unordered_map with a B-Tree???
+// TODO: separate in-memory and on-disk indices
 class DBIndex {
   DBOptions db_options;
   DBDirectory db_dir;
@@ -26,32 +28,40 @@ class DBIndex {
   std::atomic<uint64_t> index_entry_id = 0;
 
   public:
-    static IndexEntry dummy;
+    static IndexEntry dummy; // wtf??
 
+    /**
+     * Adds an item to the index
+     *
+     * @param key - item's key
+     * @param entry - index item metadata
+     */
     void put(ByteBuffer& key, IndexEntry& entry);
 
-    IndexEntry get(ByteBuffer& key) {
-      auto _key = key.to_string();
-      if (data.find(_key) != data.end()) {
-        return data[_key];
-      }
+    /**
+     * Searches for an record in the index
+     */
+    IndexEntry get(ByteBuffer& key);
 
-      return dummy;
-    }
-
+    /**
+     * Remove an item from the index
+     *
+     * @param key - items' key to be removed
+     */
     void remove(ByteBuffer& key);
+
+    /**
+     * Writes an index entry to the file
+     *
+     * @param buff - an index entry as a ByteBuffer
+     */
     void write_entry(ByteBuffer& buff);
+
     void roll_over_current_index_file();
 
-    uint32_t get_next_file_id() {
-      file_id++;
-      return file_id;
-    }
+    uint32_t get_next_file_id();
 
-    uint64_t get_next_index_entry_id() {
-      index_entry_id += 1;
-      return index_entry_id;
-    }
+    uint64_t get_next_index_entry_id();
 };
 
 }  // namespace norodb
