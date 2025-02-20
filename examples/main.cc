@@ -43,5 +43,11 @@ int main() {
 
   std::cout << "Value: " << res.to_string() << std::endl;
 
+  db.remove(k);
+  std::cout << "Removed key: " << k.to_string() << std::endl;
+  db.get(k, res);
+
+  std::cout << "Value: " << res.to_string() << std::endl;
+
   std::cout << "==== Done ====" << std::endl;
 }
