@@ -16,6 +16,7 @@
 #include "status.h"
 #include "index.h"
 #include "index_file.h"
+#include "tombstone_entry.h"
 
 namespace fs = std::filesystem;
 
@@ -64,7 +65,7 @@ class DB {
    * @param val - a ByteBuffer that will be used to write the foud value.
    */
   Status get(ByteBuffer& key, ByteBuffer& val);
-  Status remove(const ByteBuffer& key);
+  Status remove(ByteBuffer& key);
 
   /**
    * Writes a row to the current data file. If there is no open data file or the

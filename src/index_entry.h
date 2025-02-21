@@ -21,7 +21,7 @@ class IndexEntryHeader {
   uint64_t check_sum;
   uint8_t version;
   uint8_t key_size;
-  uint64_t seq_num;
+  uint64_t seq_num = 0;
 public:
   static const int SIZE = 18;
 
