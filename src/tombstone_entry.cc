@@ -2,6 +2,13 @@
 
 namespace norodb {
 
+TombstoneEntry::TombstoneEntry(ByteBuffer& key, uint8_t version, uint64_t seq_num) :
+    key(key), version(version), seq_num(seq_num) {
+
+  key_size = key.size();
+
+};
+
 std::shared_ptr<ByteBuffer> TombstoneEntry::serialize() {
   std::shared_ptr<ByteBuffer> buffer(new ByteBuffer());
 
@@ -29,5 +36,25 @@ std::shared_ptr<TombstoneEntry> TombstoneEntry::deserialize(ByteBuffer& buffer) 
 
   return te;
 }
+
+uint64_t TombstoneEntry::get_check_sum() {
+  return check_sum;
+};
+
+uint8_t TombstoneEntry::get_version() {
+  return version;
+};
+
+uint64_t TombstoneEntry::get_seq_num() {
+  return seq_num;
+};
+
+uint8_t TombstoneEntry::get_key_size() {
+  return key_size;
+};
+
+ByteBuffer TombstoneEntry::get_key() {
+  return key;
+};
 
 } // namespace norodb

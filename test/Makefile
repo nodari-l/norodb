@@ -31,3 +31,9 @@ test_index:
 	@$(CC) $(CFLAGS) $(INCLUDE) -c test_index.cc
 	@$(CC) $(CFLAGS) -o test_index test_index.o $(LIBS)
 	@./test_index
+
+test_tombstone_entry:
+	@echo "\n>>>> TESTING TOMBSTONE ENTRY <<<<\n"
+	@$(CC) $(CFLAGS) $(INCLUDE) -c test_tombstone_entry.cc
+	@$(CC) $(CFLAGS) -o test_tombstone_entry test_tombstone_entry.o $(LIBS)
+	@./test_tombstone_entry
