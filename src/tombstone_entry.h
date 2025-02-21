@@ -20,12 +20,18 @@ class TombstoneEntry {
   uint8_t key_size;
   ByteBuffer key;
 public:
-  TombstoneEntry(ByteBuffer& key, uint8_t version, uint64_t seq_num) :
-    key(key), version(version), seq_num(seq_num) {};
+  TombstoneEntry(ByteBuffer& key, uint8_t version, uint64_t seq_num);
 
   std::shared_ptr<ByteBuffer> serialize();
 
   static std::shared_ptr<TombstoneEntry> deserialize(ByteBuffer& buffer);
+
+  uint64_t get_check_sum();
+  uint8_t get_version();
+  uint64_t get_seq_num();
+  uint8_t get_key_size();
+  ByteBuffer get_key();
+
 };
 
 }  // namespace norodb
