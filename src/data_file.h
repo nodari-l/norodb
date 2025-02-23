@@ -16,7 +16,8 @@ class DataFile: public DBFile {
     /**
      * Writes a row to a file
      *
-     * @param row - a porinter to a Row object
+     * @param row - a reference to a Row object
+     * @return write offset
      */
     uint64_t write_row(Row& row);
 
