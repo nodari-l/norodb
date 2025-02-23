@@ -57,4 +57,8 @@ ByteBuffer TombstoneEntry::get_key() {
   return key;
 };
 
+uint8_t TombstoneEntry::get_size() {
+  return HEADER_SIZE + key_size;
+}
+
 } // namespace norodb
