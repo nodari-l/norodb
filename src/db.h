@@ -17,6 +17,7 @@
 #include "index.h"
 #include "index_file.h"
 #include "tombstone_entry.h"
+#include "tombstone_file.h"
 
 namespace fs = std::filesystem;
 
@@ -28,6 +29,7 @@ class DB {
   DBDirectory db_dir;
   DBIndex index;
   std::shared_ptr<DataFile> curr_data_file;  // current data file
+  std::shared_ptr<TombstoneFile> curr_tombstone_file;  // current data file
   std::mutex write_lock;
   uint64_t seq_num = 0;  // sequence number
   std::atomic<uint32_t> file_id = 0;
@@ -80,6 +82,8 @@ class DB {
    * Flushes and closes the current data file and cretes a new one
    */
   void roll_over_current_data_file();
+
+  void roll_over_current_tombstone_file(TombstoneEntry& entry);
 
   uint32_t get_next_file_id() {
     file_id++;
