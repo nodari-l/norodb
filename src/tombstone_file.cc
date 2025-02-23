@@ -7,9 +7,8 @@ TombstoneFile::TombstoneFile(uint32_t file_id, DBDirectory& dir, DBOptions& opti
   std::stringstream fname;
   fname << file_id << ".tombstone";
 
-  fs::path data_file_path = dir.get_tombstones_dir() / fname.str();
-
-  file.open(data_file_path.string(),
+  fs::path file_path = dir.get_tombstones_dir() / fname.str();
+  file.open(file_path.string(),
             std::ios::in | std::ios::out | std::ios::app | std::ios::ate | std::ios::binary);
 }
 
