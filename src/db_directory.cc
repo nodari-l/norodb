@@ -13,6 +13,7 @@ DBDirectory::DBDirectory(const std::string& p) {
 
   data_files_dir = db_dir / "data";
   index_files_dir = db_dir / "index";
+  tombstones_files_dir = db_dir / "tombstones";
   create_directories();
 }
 
@@ -21,6 +22,7 @@ DBDirectory::DBDirectory(fs::path dir) {
   db_dir = dir;
   data_files_dir = dir / "data";
   index_files_dir = dir / "index";
+  tombstones_files_dir = db_dir / "tombstones";
   create_directories();
 }
 
@@ -33,6 +35,8 @@ void DBDirectory::create_directories() {
   if (!fs::exists(data_files_dir)) fs::create_directory(data_files_dir);
 
   if (!fs::exists(index_files_dir)) fs::create_directory(index_files_dir);
+
+  if (!fs::exists(tombstones_files_dir)) fs::create_directory(tombstones_files_dir);
 }
 
 std::vector<fs::path> DBDirectory::list_index_files() {

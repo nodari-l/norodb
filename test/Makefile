@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS ?= -std=c++17 -pthread
+CFLAGS ?= -std=c++20 -pthread
 INCLUDE ?= -I../src -I./third_party/googletest/googletest/include
 LIBS ?= ../build/lib/norodb.a ./third_party/googletest/build/lib/libgtest.a
 

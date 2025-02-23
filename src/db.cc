@@ -57,6 +57,8 @@ Status DB::remove(ByteBuffer& key) {
   index.remove(key);
   seq_num++;
   TombstoneEntry entry(key, seq_num, TOMBSTONE_FILE_VERSION);
+  roll_over_current_tombstone_file(entry);
+  curr_tombstone_file->write_entry(entry);
   write_lock.unlock();
 
   return Status(true);
@@ -79,6 +81,21 @@ void DB::roll_over_current_data_file() {
   auto next_file_id = get_next_file_id();
   curr_data_file = std::shared_ptr<DataFile>(new DataFile(next_file_id, db_dir, db_options));
   data_files_map[next_file_id] = curr_data_file;
+}
+
+
+void DB::roll_over_current_tombstone_file(TombstoneEntry& entry) {
+  if (!curr_tombstone_file) {
+    auto next_file_id = get_next_file_id();
+    curr_tombstone_file = std::shared_ptr<TombstoneFile>(new TombstoneFile(next_file_id, db_dir, db_options));
+    return;
+  }
+
+  if (curr_tombstone_file->get_write_offset() + entry.get_size() > db_options.MAX_FILE_SIZE) {
+    curr_tombstone_file->flush();
+    auto next_file_id = get_next_file_id();
+    curr_tombstone_file = std::shared_ptr<TombstoneFile>(new TombstoneFile(next_file_id, db_dir, db_options));
+  }
 }
 
 void DB::build_data_files_map() {
