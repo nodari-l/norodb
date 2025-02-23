@@ -1,5 +1,5 @@
 CPP = g++
-CPPFLAGS = -std=c++17
+CPPFLAGS = -std=c++20
 OBJECTS =
 
 BUILD = ./build

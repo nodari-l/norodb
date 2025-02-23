@@ -20,6 +20,8 @@ class TombstoneEntry {
   uint8_t key_size;
   ByteBuffer key;
 public:
+  static const int HEADER_SIZE = 18;
+
   TombstoneEntry(ByteBuffer& key, uint8_t version, uint64_t seq_num);
 
   std::shared_ptr<ByteBuffer> serialize();
@@ -31,7 +33,7 @@ public:
   uint64_t get_seq_num();
   uint8_t get_key_size();
   ByteBuffer get_key();
-
+  uint8_t get_size();
 };
 
 }  // namespace norodb
