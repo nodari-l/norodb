@@ -24,8 +24,14 @@ void DBMetaData::save() {
 }
 
 
-void load() {
+void DBMetaData::load() {
+  ByteBuffer buffer(SIZE);
+  read(0, SIZE, buffer);
 
+  check_sum = buffer.get_long();
+  version = buffer.get();
+  seq_num = buffer.get_long();
+  max_file_size = buffer.get();
 }
 
-}
+} // namespace norodb
