@@ -22,11 +22,18 @@ class DBMetaData : public DBFile {
 public:
   DBMetaData(uint32_t file_id, DBDirectory& dir, DBOptions& options);
 
+  ~DBMetaData() {
+    file.close();
+  };
+
   /**
-   * Saves metadata to disk;
+   * Saves metadata to disk
    */
   void save();
 
+  /**
+   * Loads metadata from disk
+   */
   void load();
 
 };

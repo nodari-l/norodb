@@ -12,7 +12,6 @@ DBMetaData::DBMetaData(uint32_t file_id, DBDirectory& dir, DBOptions& options)
             std::ios::in | std::ios::out | std::ios::app | std::ios::ate | std::ios::binary);
 }
 
-
 void DBMetaData::save() {
   ByteBuffer buffer(SIZE);
   buffer.put_long(check_sum);
@@ -22,7 +21,6 @@ void DBMetaData::save() {
 
   write(buffer);
 }
-
 
 void DBMetaData::load() {
   ByteBuffer buffer(SIZE);
