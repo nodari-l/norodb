@@ -9,8 +9,10 @@
 namespace fs = std::filesystem;
 
 int main() {
+  const std::string dir("/tmp");
+  norodb::DBDirectory db_dir(dir);
   norodb::DBOptions opts;
-  norodb::DB db("", opts);
+  norodb::DB db(db_dir, opts);
   db.open();
   norodb::ByteBuffer key("key");
   norodb::ByteBuffer val("val");
