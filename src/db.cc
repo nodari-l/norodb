@@ -7,19 +7,25 @@
 namespace norodb {
 
 
-// build index
+
+DB::DB(DBDirectory db_dir, DBOptions& opts) : db_dir(db_dir), db_options(opts),
+  metadata(0, db_dir, opts) {
+}
 
 // The following actions will be added later
 // load metadata from a metadafile
 // start the compaction process
 // start the compaction process for tombsones
 Status DB::open() {
-  fs::path p("norodb");
-  db_dir = DBDirectory(p);
-
+  metadata.load_if_exists();
   build_data_files_map();
   build_index();
 
+  return Status(true);
+}
+
+Status DB::close() {
+  metadata.save();
   return Status(true);
 }
 

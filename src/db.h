@@ -18,6 +18,7 @@
 #include "index_file.h"
 #include "tombstone_entry.h"
 #include "tombstone_file.h"
+#include "db_metadata.h"
 
 namespace fs = std::filesystem;
 
@@ -34,6 +35,7 @@ class DB {
   uint64_t seq_num = 0;  // sequence number
   std::atomic<uint32_t> file_id = 0;
   std::unordered_map<uint32_t, std::shared_ptr<DataFile>> data_files_map;
+  DBMetadata metadata;
 
   /**
    * Goes over existing data files and builds a map of path => DataFile key value pairs.
@@ -47,8 +49,9 @@ class DB {
   void build_index();
 
  public:
-  DB(const std::string& dir, const DBOptions& opts) : directory(dir), db_options(opts){};
+  DB(DBDirectory db_dir, DBOptions& opts);
   Status open();
+  Status close();
 
   /**
    * Adds a key/valiue  pair to the db.
