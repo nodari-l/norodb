@@ -1,8 +1,14 @@
 #include "db_directory.h"
 
-#include <iostream>
-
 namespace norodb {
+
+DBDirectory::DBDirectory()  {
+  db_dir = fs::path("norodb");
+  data_files_dir = db_dir / "data";
+  index_files_dir = db_dir / "index";
+  tombstones_files_dir = db_dir / "tombstones";
+  create_directories();
+};
 
 DBDirectory::DBDirectory(const std::string& p) {
   if (p.size() > 0) {
@@ -18,12 +24,16 @@ DBDirectory::DBDirectory(const std::string& p) {
 }
 
 DBDirectory::DBDirectory(fs::path dir) {
-
   db_dir = dir;
   data_files_dir = dir / "data";
   index_files_dir = dir / "index";
   tombstones_files_dir = db_dir / "tombstones";
   create_directories();
+}
+
+std::ostream& operator<<(std::ostream& os, const DBDirectory& dir) {
+    os << "DBDirectory(path=" << dir << ")";
+    return os;
 }
 
 DBDirectory* DBDirectory::open(fs::path dir) { return new DBDirectory(dir); }

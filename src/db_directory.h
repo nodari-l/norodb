@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <string>
 #include <vector>
+#include <iostream>
 
 #include "status.h"
 
@@ -19,13 +20,7 @@ class DBDirectory {
 
  public:
   DBDirectory(const std::string& p);
-  DBDirectory() {
-    db_dir = "norodb";
-    data_files_dir = db_dir / "data";
-    index_files_dir = db_dir / "index";
-    tombstones_files_dir = db_dir / "tombstones";
-    create_directories();
-  };
+  DBDirectory();
   DBDirectory(fs::path dir);
   static DBDirectory* open(fs::path dir);
   void close();
