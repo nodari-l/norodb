@@ -7,7 +7,7 @@ class Status {
   bool _ok;
 
  public:
-  Status(bool ok) { _ok = ok; }
+  Status(bool ok) : _ok(ok) {};
 
   bool ok() const { return _ok; }
 };
