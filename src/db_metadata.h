@@ -1,6 +1,8 @@
 #ifndef NORO_DB_DB_META_DATA_H_
 #define NORO_DB_DB_META_DATA_H_
 
+#include <iostream>
+
 #include "byte_buffer.h"
 #include "db_directory.h"
 #include "db_options.h"
@@ -8,7 +10,7 @@
 
 namespace norodb {
 
-class DBMetaData : public DBFile {
+class DBMetadata : public DBFile {
   DBDirectory db_dir;
 
   uint64_t check_sum = 0;
@@ -20,9 +22,12 @@ class DBMetaData : public DBFile {
   static constexpr std::string METADATA_FILE_NAME = "metadata";
 
 public:
-  DBMetaData(uint32_t file_id, DBDirectory& dir, DBOptions& options);
-
-  ~DBMetaData() {
+  DBMetadata();
+  DBMetadata(uint32_t file_id, DBDirectory& dir, DBOptions& options);
+  
+  friend std::ostream& operator<<(std::ostream& os, DBMetadata& f);
+  
+  ~DBMetadata() {
     file.close();
   };
 
@@ -34,7 +39,7 @@ public:
   /**
    * Loads metadata from disk
    */
-  void load();
+  void load_if_exists();
 
 };
 
