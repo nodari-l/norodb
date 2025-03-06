@@ -15,6 +15,13 @@ class DBOptions {
    * than this value
    */
   uint32_t FLUSH_DATA_SIZE_BYTES = -1;
+  friend std::ostream& operator<<(std::ostream& os, DBOptions& opts) {
+    os << "DBOptions(MAX_FILE_SIZE=" << opts.MAX_FILE_SIZE <<
+       "; FLUSH_DATA_SIZE_BYTES=" << opts.FLUSH_DATA_SIZE_BYTES <<
+       ": FLUSH_ON_WRITE=" << opts.FLUSH_ON_WRITE << ")";
+
+    return os;
+  }
 
   bool FLUSH_ON_WRITE = true;  // if true, buffers will flushed to the disl after every write
 };
