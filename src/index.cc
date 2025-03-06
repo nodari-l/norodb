@@ -20,7 +20,7 @@ void DBIndex::put(ByteBuffer& key, IndexEntry& entry) {
 
 void DBIndex::write_entry(ByteBuffer& buff) {
   if (!curr_index_file or
-      curr_index_file->get_write_offset() + buff.size() > db_options.MAX_FILE_SIZE) {
+      curr_index_file->get_write_offset() + buff.size() > db_options.get_max_file_size()) {
     roll_over_current_index_file();
   }
   curr_index_file->write(buff);

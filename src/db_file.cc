@@ -6,7 +6,7 @@ namespace norodb {
 void DBFile::write(ByteBuffer& buff) {
   file.write(buff.ptr(), buff.size());
 
-  if (db_options.FLUSH_ON_WRITE) {
+  if (db_options.get_flush_on_write()) {
     file.flush();
   }
 

@@ -13,7 +13,6 @@ DB::DB(DBDirectory db_dir, DBOptions& opts) : db_dir(db_dir), db_options(opts),
 }
 
 // The following actions will be added later
-// load metadata from a metadafile
 // start the compaction process
 // start the compaction process for tombsones
 Status DB::open() {
@@ -72,7 +71,7 @@ Status DB::remove(ByteBuffer& key) {
 
 uint64_t DB::write_row(Row& row) {
   if (!curr_data_file or
-      curr_data_file->get_write_offset() + row.size() > db_options.MAX_FILE_SIZE) {
+      curr_data_file->get_write_offset() + row.size() > db_options.get_max_file_size()) {
     roll_over_current_data_file();
   }
 
@@ -97,7 +96,7 @@ void DB::roll_over_current_tombstone_file(TombstoneEntry& entry) {
     return;
   }
 
-  if (curr_tombstone_file->get_write_offset() + entry.get_size() > db_options.MAX_FILE_SIZE) {
+  if (curr_tombstone_file->get_write_offset() + entry.get_size() > db_options.get_max_file_size()) {
     curr_tombstone_file->flush();
     auto next_file_id = get_next_file_id();
     curr_tombstone_file = std::shared_ptr<TombstoneFile>(new TombstoneFile(next_file_id, db_dir, db_options));
