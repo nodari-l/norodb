@@ -31,11 +31,6 @@ DBDirectory::DBDirectory(fs::path dir) {
   create_directories();
 }
 
-std::ostream& operator<<(std::ostream& os, const DBDirectory& dir) {
-    os << "DBDirectory(path=" << dir << ")";
-    return os;
-}
-
 DBDirectory* DBDirectory::open(fs::path dir) { return new DBDirectory(dir); }
 
 // Creates dirctories used by the DB.

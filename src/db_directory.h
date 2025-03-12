@@ -31,6 +31,11 @@ class DBDirectory {
   fs::path get_tombstones_dir() { return tombstones_files_dir; };
   std::vector<fs::path> list_data_files();
   std::vector<fs::path> list_index_files();
+
+  friend std::ostream& operator<<(std::ostream& os, DBDirectory& dir) {
+    os << "DBDirectory(path=" << dir.get_path() << ")";
+    return os;
+  };
 };
 
 }  // namespace norodb
