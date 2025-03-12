@@ -30,6 +30,9 @@ class DBIndex {
   public:
     static IndexEntry dummy; // wtf??
 
+    DBIndex() = delete;
+    DBIndex(DBOptions& opts, DBDirectory &dir) : db_options(opts), db_dir(dir) {};
+
     /**
      * Adds an item to the index
      *

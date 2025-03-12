@@ -9,7 +9,7 @@ namespace norodb {
 
 
 DB::DB(DBDirectory db_dir, DBOptions& opts) : db_dir(db_dir), db_options(opts),
-  metadata(0, db_dir, opts) {
+  metadata(0, db_dir, opts), index(opts, db_dir) {
 }
 
 // The following actions will be added later
