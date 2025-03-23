@@ -4,7 +4,7 @@ namespace norodb {
 
 
 DBMetadata::DBMetadata(uint32_t file_id, DBDirectory& dir, DBOptions& options)
-    : DBFile{file_id, dir, options} {
+    : DBFile{file_id, dir, options}, db_dir(dir) {
 
   fs::path file_path = db_dir.get_path() / METADATA_FILE_NAME;
 

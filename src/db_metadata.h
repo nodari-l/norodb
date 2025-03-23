@@ -22,11 +22,10 @@ class DBMetadata : public DBFile {
   static constexpr std::string METADATA_FILE_NAME = "metadata";
 
 public:
-  DBMetadata();
   DBMetadata(uint32_t file_id, DBDirectory& dir, DBOptions& options);
-  
+
   friend std::ostream& operator<<(std::ostream& os, DBMetadata& f);
-  
+
   ~DBMetadata() {
     file.close();
   };
