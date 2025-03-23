@@ -19,10 +19,8 @@ class DBDirectory {
   fs::path tombstones_files_dir;
 
  public:
-  DBDirectory(const std::string& p);
   DBDirectory();
   DBDirectory(fs::path dir);
-  static DBDirectory* open(fs::path dir);
   void close();
   void create_directories();
   fs::path get_path() { return db_dir; };
