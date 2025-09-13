@@ -22,7 +22,7 @@ uint64_t DataFile::write_row(Row& row) {
   return row_offset;
 }
 
-Row* DataFile::read_row(uint64_t offset) {
+std::shared_ptr<Row> DataFile::read_row(uint64_t offset) {
   uint64_t temp_offset = offset;
   auto header_buff = ByteBuffer(RowHeader::HEADER_SIZE);
   read(temp_offset, RowHeader::HEADER_SIZE, header_buff);

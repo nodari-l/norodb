@@ -27,8 +27,8 @@ TEST(Row, Serialize) {
   norodb::ByteBuffer key("key");
   norodb::ByteBuffer val("val");
 
-  norodb::Row r(&key, &val);
-  r.set_header(&h);
+  norodb::Row r(key, val);
+  r.set_header(h);
   auto bb = r.serialize();
   ASSERT_EQ(bb->size(), 28);
 }
@@ -38,16 +38,16 @@ TEST(Row, Deserialize) {
   norodb::ByteBuffer key("key");
   norodb::ByteBuffer val("val");
 
-  norodb::Row r1(&key, &val);
-  r1.set_header(&h);
+  norodb::Row r1(key, val);
+  r1.set_header(h);
   auto bb = r1.serialize();
 
   auto h2 = norodb::RowHeader::deserialize(*bb);
   auto r2 = norodb::Row::deserialize(*bb, h2->get_key_size(), h2->get_val_size());
-  r2->set_header(h2);
+  r2->set_header(*h2);
 
-  ASSERT_EQ(r2->get_key()->to_string(), "key");
-  ASSERT_EQ(r2->get_val()->to_string(), "val");
+  ASSERT_EQ(r2->get_key().to_string(), "key");
+  ASSERT_EQ(r2->get_val().to_string(), "val");
 }
 
 int main(int argc, char** argv) {

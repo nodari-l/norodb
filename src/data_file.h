@@ -1,6 +1,8 @@
 #ifndef NORO_DB_DATA_FILE_H_
 #define NORO_DB_DATA_FILE_H_
 
+#include <memory>
+
 #include "byte_buffer.h"
 #include "db_file.h"
 #include "db_directory.h"
@@ -26,9 +28,9 @@ class DataFile: public DBFile {
      * Row object
      *
      * @param offset - location from which a read is done
-     * @return a pointer to a Row object
+     * @return a shared_ptr to a Row object
      */
-    Row* read_row(uint64_t offset);
+    std::shared_ptr<Row> read_row(uint64_t offset);
 };
 
 } // namespace norodb

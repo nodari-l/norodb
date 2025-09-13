@@ -1,6 +1,7 @@
 #include "row.h"
 
 #include <iostream>
+#include <memory>
 #include <sstream>
 #include <string>
 
@@ -17,9 +18,9 @@ std::string RowHeader::to_string() {
   return s.str();
 }
 
-// Serializes a header to a bytearray so it can be written to a  file
-ByteBuffer* RowHeader::serialize() {
-  auto buff = new ByteBuffer();
+// Serializes a header to a bytearray so it can be written to a file
+std::shared_ptr<ByteBuffer> RowHeader::serialize() {
+  auto buff = std::make_shared<ByteBuffer>();
   buff->put_long(check_sum);
   buff->put(version);
   buff->put(key_size);
@@ -30,8 +31,8 @@ ByteBuffer* RowHeader::serialize() {
 }
 
 // Recreates a header from a byte array
-RowHeader* RowHeader::deserialize(ByteBuffer& buff) {
-  return new RowHeader(buff.get_long(), buff.get(), buff.get(), buff.get_int(), buff.get_long());
+std::shared_ptr<RowHeader> RowHeader::deserialize(ByteBuffer& buff) {
+  return std::make_shared<RowHeader>(buff.get_long(), buff.get(), buff.get(), buff.get_int(), buff.get_long());
 }
 
 Row::Row(ByteBuffer key, ByteBuffer val) {
@@ -41,15 +42,15 @@ Row::Row(ByteBuffer key, ByteBuffer val) {
   _size = key.size() + val.size() + header.size();
 }
 
-ByteBuffer* Row::serialize() {
-  auto buff = new ByteBuffer();
-  buff->put(header.serialize());
+std::shared_ptr<ByteBuffer> Row::serialize() {
+  auto buff = std::make_shared<ByteBuffer>();
+  buff->put(header.serialize().get());
   buff->put(&key);
   buff->put(&val);
   return buff;
 }
 
-Row* Row::deserialize(ByteBuffer& buffer, uint8_t key_size, uint32_t val_size) {
+std::shared_ptr<Row> Row::deserialize(ByteBuffer& buffer, uint8_t key_size, uint32_t val_size) {
   uint8_t key_buff[key_size];
   uint8_t val_buff[val_size];
 
@@ -58,13 +59,11 @@ Row* Row::deserialize(ByteBuffer& buffer, uint8_t key_size, uint32_t val_size) {
   ByteBuffer key(key_buff, key_size);
   ByteBuffer val(val_buff, val_size);
 
-  return new Row(key, val);
+  return std::make_shared<Row>(key, val);
 }
 
 Row::~Row() {
-  // delete key;
-  // delete val;
-  // delete header;
+  // No manual deletes needed
 }
 
 }  // namespace norodb

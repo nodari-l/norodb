@@ -41,8 +41,8 @@ class RowHeader {
         val_size(val_size),
         seq_num(seq_num){};
   RowHeader() {};
-  ByteBuffer* serialize();
-  static RowHeader* deserialize(ByteBuffer& buffer);
+  std::shared_ptr<ByteBuffer> serialize();
+  static std::shared_ptr<RowHeader> deserialize(ByteBuffer& buffer);
   std::string to_string();
   uint32_t size() { return HEADER_SIZE; };
   void set_seq_num(uint64_t num) { seq_num = num; }
@@ -63,8 +63,8 @@ class Row {
   Row(ByteBuffer key, ByteBuffer val);
   ~Row();
 
-  ByteBuffer* serialize();
-  static Row* deserialize(ByteBuffer& buffer, uint8_t key_size, uint32_t val_size);
+  std::shared_ptr<ByteBuffer> serialize();
+  static std::shared_ptr<Row> deserialize(ByteBuffer& buffer, uint8_t key_size, uint32_t val_size);
   uint32_t size() { return _size; };
   void set_seq_num(uint64_t num) { header.set_seq_num(num); }
   uint64_t get_seq_num() { return header.get_seq_num(); }
