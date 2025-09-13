@@ -51,13 +51,13 @@ std::shared_ptr<ByteBuffer> Row::serialize() {
 }
 
 std::shared_ptr<Row> Row::deserialize(ByteBuffer& buffer, uint8_t key_size, uint32_t val_size) {
-  uint8_t key_buff[key_size];
-  uint8_t val_buff[val_size];
+  std::vector<uint8_t> key_buff(key_size);
+  std::vector<uint8_t> val_buff(val_size);
 
-  buffer.get_bytes(key_buff, key_size);
-  buffer.get_bytes(val_buff, val_size);
-  ByteBuffer key(key_buff, key_size);
-  ByteBuffer val(val_buff, val_size);
+  buffer.get_bytes(key_buff.data(), key_size);
+  buffer.get_bytes(val_buff.data(), val_size);
+  ByteBuffer key(key_buff.data(), key_size);
+  ByteBuffer val(val_buff.data(), val_size);
 
   return std::make_shared<Row>(key, val);
 }

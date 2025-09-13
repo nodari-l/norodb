@@ -26,10 +26,10 @@ std::shared_ptr<TombstoneEntry> TombstoneEntry::deserialize(ByteBuffer& buffer) 
   uint8_t version = buffer.get();
   uint64_t seq_num = buffer.get_long();
   uint8_t key_size = buffer.get();
-  uint8_t key[key_size];
+  std::vector<uint8_t> key(key_size);
 
-  buffer.get_bytes(key, key_size);
-  ByteBuffer key_buffer = ByteBuffer(key, key_size);
+  buffer.get_bytes(key.data(), key_size);
+  ByteBuffer key_buffer = ByteBuffer(key.data(), key_size);
 
 
   std::shared_ptr<TombstoneEntry> te(new TombstoneEntry(key_buffer, version, seq_num));
